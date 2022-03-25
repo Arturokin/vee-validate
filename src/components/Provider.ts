@@ -123,6 +123,10 @@ export const ValidationProvider = (Vue as withProviderPrivates).extend({
     detectInput: {
       type: Boolean,
       default: true
+    },
+    bindClasses: {
+      type: Boolean,
+      default: true
     }
   },
   watch: {
@@ -233,6 +237,16 @@ export const ValidationProvider = (Vue as withProviderPrivates).extend({
           this._resolvedRules = resolved;
           addListeners(this, input);
         });
+      }
+    }
+    
+    if (this.slim && children.length <= 1) {
+        return children[0];
+    } else {
+      if (this.bindClasses) {
+        return h(this.tag, { class: this.classes }, children);
+      } else {
+        return h(this.tag, children);
       }
     }
 
